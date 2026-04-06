@@ -50,12 +50,21 @@ def dataframe_from_tier_table(path: str) -> pd.DataFrame:
 
 
 def run_mcda_from_tier_table(path: str) -> pd.DataFrame:
-    """Load tier table and return MCDA scores merged with inputs."""
+    """Load tier table and return MCDA scores sorted by O_percent descending."""
     base = dataframe_from_tier_table(path)
+    for col in ("LBE", "USD_per_kg"):
+        try:
+            base[col] = pd.to_numeric(base[col], errors="raise")
+        except (ValueError, TypeError) as exc:
+            raise ValueError(
+                f"Column '{col}' contains non-numeric values — check your CSV. "
+                f"Original error: {exc}"
+            ) from exc
+
     m = mcda_overall_scores(
         base["LBE"].astype(float),
         base["EI_percent"].astype(float),
         base["USD_per_kg"].astype(float),
         names=base["name"].astype(str),
     )
-    return m.sort_values("O_percent", ascending=False)
+    return m.sort_values("O_percent", ascending=False).reset_index(drop=True)

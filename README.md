@@ -1,5 +1,10 @@
 # EPEA: eco-pharmaco-economic analysis
 
+[![CI](https://github.com/planttalks/epea-framework/actions/workflows/ci.yml/badge.svg)](https://github.com/planttalks/epea-framework/actions/workflows/ci.yml)
+[![Python 3.10+](https://img.shields.io/badge/python-3.10%2B-blue.svg)](https://www.python.org/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+[![DOI](https://img.shields.io/badge/DOI-10.3390%2Fijms25116009-blue)](https://doi.org/10.3390/ijms25116009)
+
 Python reference implementation of the **weighted score (WSM) environmental impact** and **multicriteria decision analysis (MCDA)** workflow described in *International Journal of Molecular Sciences* (2024), for comparing disinfectant (or similar) candidates on efficacy, environmental profiles, and cost.
 
 **Paper:** Zure, D.; Sung, M.-H.; Rahim, A.; Kuo, H.-W. “In Silico Assessment of Chemical Disinfectants on Surface Proteins Unveiled Dissimilarity in Antiviral Efficacy and Suitability towards Pathogenic Viruses.” *Int. J. Mol. Sci.* **2024**, *25*, 6009. [https://doi.org/10.3390/ijms25116009](https://doi.org/10.3390/ijms25116009) · [MDPI article page](https://www.mdpi.com/1422-0067/25/11/6009)

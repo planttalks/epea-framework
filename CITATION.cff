@@ -1,0 +1,52 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite both the original paper and this repository."
+type: software
+title: "epea-framework: eco-pharmaco-economic analysis (WSM + MCDA)"
+version: "1.0.0"
+date-released: "2024-05-30"
+license: MIT
+repository-code: "https://github.com/planttalks/epea-framework"
+url: "https://github.com/planttalks/epea-framework"
+authors:
+  - family-names: Zure
+    given-names: Diaiti
+    orcid: "https://orcid.org/0000-0003-2263-6571"
+    affiliation: "Department of Environmental Science and Engineering, Tunghai University, Taichung 407224, Taiwan"
+  - family-names: Sung
+    given-names: Meng-Hau
+    affiliation: "Department of Environmental Science and Engineering, Tunghai University, Taichung 407224, Taiwan"
+  - family-names: Rahim
+    given-names: Abdul
+    affiliation: "Department of Environmental Science and Engineering, Tunghai University, Taichung 407224, Taiwan"
+  - family-names: Kuo
+    given-names: Hsion-Wen
+    affiliation: "Department of Environmental Science and Engineering, Tunghai University, Taichung 407224, Taiwan"
+keywords:
+  - MCDA
+  - WSM
+  - environmental-impact
+  - EPI-Suite
+  - disinfectants
+  - antiviral
+  - eco-pharmaco-economics
+  - molecular-docking
+preferred-citation:
+  type: article
+  title: "In Silico Assessment of Chemical Disinfectants on Surface Proteins Unveiled Dissimilarity in Antiviral Efficacy and Suitability towards Pathogenic Viruses"
+  authors:
+    - family-names: Zure
+      given-names: Diaiti
+      orcid: "https://orcid.org/0000-0003-2263-6571"
+    - family-names: Sung
+      given-names: Meng-Hau
+    - family-names: Rahim
+      given-names: Abdul
+    - family-names: Kuo
+      given-names: Hsion-Wen
+  journal: "International Journal of Molecular Sciences"
+  volume: 25
+  issue: 11
+  start: 6009
+  year: 2024
+  doi: "10.3390/ijms25116009"
+  url: "https://www.mdpi.com/1422-0067/25/11/6009"
