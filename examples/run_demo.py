@@ -16,7 +16,7 @@ from pathlib import Path
 _ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(_ROOT / "src"))
 
-from epea.core import (
+from epea.core import (  # noqa: E402
     classify_environmental_impact_pct,
     environmental_impact_fraction,
     mcda_overall_scores,

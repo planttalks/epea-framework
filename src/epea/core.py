@@ -14,7 +14,8 @@ MCDA overall score O = wE*Enorm + wS*Snorm + wC*Cnorm with default equal weights
 
 from __future__ import annotations
 
-from typing import Iterable, Literal, Mapping, Sequence
+from collections.abc import Iterable, Mapping, Sequence
+from typing import Literal
 
 import numpy as np
 import pandas as pd
@@ -178,7 +179,7 @@ def mcda_overall_scores(
     en = enorm_from_lbe(E)
     sn = snorm_from_impact_pct(S)
     cn = cnorm_from_cost(C)
-    O = wE * en + wS * sn + wC * cn
+    overall = wE * en + wS * sn + wC * cn
 
     idx = names if names is not None else [f"candidate_{i}" for i in range(n)]
     return pd.DataFrame(
@@ -190,6 +191,6 @@ def mcda_overall_scores(
             "Enorm": en,
             "Snorm": sn,
             "Cnorm": cn,
-            "O_percent": O,
+            "O_percent": overall,
         }
     )

@@ -1,6 +1,7 @@
 """
 Integration tests for epea.io — CSV loading and end-to-end MCDA pipeline.
 """
+
 from __future__ import annotations
 
 import textwrap
@@ -54,6 +55,7 @@ def missing_column_csv(tmp_path: Path) -> Path:
 # dataframe_from_tier_table
 # ---------------------------------------------------------------------------
 
+
 def test_load_valid_csv_shape(valid_csv: Path) -> None:
     df = dataframe_from_tier_table(str(valid_csv))
     assert len(df) == 3
@@ -84,6 +86,7 @@ def test_missing_column_raises(missing_column_csv: Path) -> None:
 # ---------------------------------------------------------------------------
 # run_mcda_from_tier_table — end-to-end
 # ---------------------------------------------------------------------------
+
 
 def test_run_mcda_returns_sorted(valid_csv: Path) -> None:
     df = run_mcda_from_tier_table(str(valid_csv))

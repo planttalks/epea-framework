@@ -12,28 +12,28 @@ Coverage targets:
 - cnorm_from_cost: monotonicity, exact values
 - mcda_overall_scores: ranking, weight validation, length mismatch
 """
+
 from __future__ import annotations
 
 import numpy as np
 import pytest
 
 from epea.core import (
-    MAX_TOTAL_PROFILE_SCORE,
     classify_environmental_impact_pct,
     classify_environmental_impact_total_score,
     cnorm_from_cost,
-    environmental_impact_fraction,
     enorm_from_lbe,
+    environmental_impact_fraction,
     mcda_overall_scores,
     profile_score_from_tiers,
     snorm_from_impact_pct,
     tier_to_score,
 )
 
-
 # ---------------------------------------------------------------------------
 # tier_to_score
 # ---------------------------------------------------------------------------
+
 
 def test_tier_scores_all_valid() -> None:
     assert tier_to_score("safe") == 1
@@ -49,6 +49,7 @@ def test_tier_score_invalid_raises() -> None:
 # ---------------------------------------------------------------------------
 # profile_score_from_tiers
 # ---------------------------------------------------------------------------
+
 
 def test_profile_score_sequence_all_safe() -> None:
     assert profile_score_from_tiers(("safe",) * 6) == 6
@@ -85,6 +86,7 @@ def test_profile_score_wrong_length_raises() -> None:
 # environmental_impact_fraction
 # ---------------------------------------------------------------------------
 
+
 def test_ei_fraction_min() -> None:
     assert environmental_impact_fraction(6) == pytest.approx(6 / 18)
 
@@ -96,6 +98,7 @@ def test_ei_fraction_max() -> None:
 # ---------------------------------------------------------------------------
 # classify_environmental_impact_total_score
 # ---------------------------------------------------------------------------
+
 
 def test_classify_total_safe() -> None:
     assert classify_environmental_impact_total_score(6) == "safe"
@@ -131,6 +134,7 @@ def test_classify_total_out_of_range_high() -> None:
 # classify_environmental_impact_pct — round-trip
 # ---------------------------------------------------------------------------
 
+
 def test_classify_pct_all_safe() -> None:
     assert classify_environmental_impact_pct(100 * 6 / 18) == "safe"
 
@@ -148,6 +152,7 @@ def test_classify_pct_mid_mild() -> None:
 # enorm_from_lbe
 # ---------------------------------------------------------------------------
 
+
 def test_enorm_best_is_most_negative() -> None:
     E = np.array([-10.0, -8.0, -6.0])
     en = enorm_from_lbe(E)
@@ -158,8 +163,8 @@ def test_enorm_exact_values() -> None:
     E = np.array([-10.0, -8.0, -6.0])
     en = enorm_from_lbe(E)
     # hi=-6, lo=-10; en = (hi-E)/(hi-lo)*100
-    assert en[0] == pytest.approx(100.0)   # most negative -> best
-    assert en[2] == pytest.approx(0.0)    # least negative -> worst
+    assert en[0] == pytest.approx(100.0)  # most negative -> best
+    assert en[2] == pytest.approx(0.0)  # least negative -> worst
     assert en[1] == pytest.approx(50.0)
 
 
@@ -173,6 +178,7 @@ def test_enorm_degenerate_all_equal() -> None:
 # ---------------------------------------------------------------------------
 # snorm_from_impact_pct
 # ---------------------------------------------------------------------------
+
 
 def test_snorm_monotone_decreasing() -> None:
     S = np.array([10.0, 50.0, 90.0])
@@ -192,6 +198,7 @@ def test_snorm_exact_values() -> None:
 # cnorm_from_cost
 # ---------------------------------------------------------------------------
 
+
 def test_cnorm_monotone_decreasing() -> None:
     C = np.array([5.0, 50.0, 500.0])
     cn = cnorm_from_cost(C)
@@ -201,7 +208,7 @@ def test_cnorm_monotone_decreasing() -> None:
 def test_cnorm_exact_values() -> None:
     C = np.array([0.0, 50.0, 100.0])
     cn = cnorm_from_cost(C)
-    assert cn[0] == pytest.approx(100.0)   # cheapest -> best score
+    assert cn[0] == pytest.approx(100.0)  # cheapest -> best score
     assert cn[2] == pytest.approx(0.0)
     assert cn[1] == pytest.approx(50.0)
 
@@ -209,6 +216,7 @@ def test_cnorm_exact_values() -> None:
 # ---------------------------------------------------------------------------
 # mcda_overall_scores
 # ---------------------------------------------------------------------------
+
 
 def test_mcda_ranking_clear_winner() -> None:
     # 'a': better LBE, lower EI, lower cost -> should score highest
