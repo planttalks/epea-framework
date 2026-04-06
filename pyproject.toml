@@ -1,0 +1,34 @@
+[build-system]
+requires = ["setuptools>=61"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "epea"
+version = "1.0.0"
+description = "Eco-pharmaco-economic analysis (EPEA): WSM environmental impact + MCDA scoring"
+readme = "README.md"
+requires-python = ">=3.10"
+license = { text = "MIT" }
+authors = [
+  { name = "Diaiti Zure" },
+  { name = "Meng-Hau Sung" },
+  { name = "Abdul Rahim" },
+  { name = "Hsion-Wen Kuo" },
+]
+keywords = ["MCDA", "environmental-impact", "disinfectants", "EPI-Suite", "WSM"]
+dependencies = ["numpy>=1.24", "pandas>=2.0"]
+
+[project.optional-dependencies]
+dev = ["pytest>=7.0"]
+
+[project.urls]
+Repository = "https://github.com/planttalks/epea-framework"
+"Paper (DOI)" = "https://doi.org/10.3390/ijms25116009"
+"Paper (MDPI)" = "https://www.mdpi.com/1422-0067/25/11/6009"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["src"]
