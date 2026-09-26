@@ -1,6 +1,8 @@
 {
   "name": "epea-framework",
   "private": true,
+  "homepage": "http://127.0.0.1:43119",
+  "description": "EPEA field sheet. Start with npm start, then open http://127.0.0.1:43119.",
   "scripts": {
     "dev": "python3 field-sheet/serve.py || python field-sheet/serve.py",
     "start": "python3 field-sheet/serve.py || python field-sheet/serve.py",

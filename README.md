@@ -5,7 +5,19 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![DOI](https://img.shields.io/badge/DOI-10.3390%2Fijms25116009-blue)](https://doi.org/10.3390/ijms25116009)
 
-Python reference implementation of the **weighted score (WSM) environmental impact** and **multicriteria decision analysis (MCDA)** workflow described in *International Journal of Molecular Sciences* (2024), for comparing disinfectant (or similar) candidates on efficacy, environmental profiles, and cost.
+Python reference implementation and browser field sheet for the **weighted score (WSM) environmental impact** and **multicriteria decision analysis (MCDA)** workflow in *International Journal of Molecular Sciences* (2024). Compare disinfectant (or similar) candidates on efficacy, environmental profiles and cost.
+
+**Field sheet:** [http://127.0.0.1:43119](http://127.0.0.1:43119)
+
+Start the sheet from this repository, then open that address in a browser:
+
+```bash
+python field-sheet/serve.py
+```
+
+`npm run dev` and `npm start` start the same server. The worked example loads the three illustrative rows from `examples/run_demo.py`. Records stay in the browser. No data are uploaded. A blank candidate row is left out of the score. Import a CSV that uses the columns in `examples/sample_chemicals.template.csv`, or export one and pass it to `run_mcda_from_tier_table`.
+
+This sheet scores candidates. It does not close a pre-harvest mass balance. That calculation lives in [antiviral-mass-balance](https://github.com/planttalks/antiviral-mass-balance).
 
 **Paper:** Zure, D.; Sung, M.-H.; Rahim, A.; Kuo, H.-W. “In Silico Assessment of Chemical Disinfectants on Surface Proteins Unveiled Dissimilarity in Antiviral Efficacy and Suitability towards Pathogenic Viruses.” *Int. J. Mol. Sci.* **2024**, *25*, 6009. [https://doi.org/10.3390/ijms25116009](https://doi.org/10.3390/ijms25116009) · [MDPI article page](https://www.mdpi.com/1422-0067/25/11/6009)
 
@@ -36,22 +48,6 @@ python -m venv .venv
 # source .venv/bin/activate  # Linux / macOS
 pip install -e ".[dev]"
 ```
-
-## Open the calculation sheet
-
-Open [http://127.0.0.1:43119](http://127.0.0.1:43119).
-
-From the repository root, start the sheet and then open that address in a browser.
-
-```bash
-python field-sheet/serve.py
-```
-
-`npm run dev` and `npm start` start the same server.
-
-The worked example loads the three illustrative rows from `examples/run_demo.py`. Records stay in the browser. No data are uploaded. A blank candidate row is left out of the score. Import a CSV that uses the columns in `examples/sample_chemicals.template.csv`, or export one and pass it to `run_mcda_from_tier_table`.
-
-This sheet scores candidates. It does not close a pre-harvest mass balance. That calculation lives in [antiviral-mass-balance](https://github.com/planttalks/antiviral-mass-balance).
 
 ## Quick use
 

@@ -32,6 +32,7 @@ def test_field_sheet_server_serves_index() -> None:
             assert response.status == 200
         assert "EPEA field sheet" in body
         assert "Eco-pharmaco-economic analysis" in body
+        assert "http://127.0.0.1:43119" in body
     finally:
         httpd.shutdown()
         httpd.server_close()
