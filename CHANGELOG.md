@@ -5,6 +5,16 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ---
 
+## [Unreleased]
+
+### Added
+- `field-sheet/`: browser field sheet for the same WSM and MCDA scores as `epea.core`.
+  Enter six EPI-style tiers, docking LBE and cost per kg. The sheet ranks candidates,
+  stores records in the browser and imports or exports the tier CSV.
+- `python field-sheet/serve.py` serves the sheet at <http://127.0.0.1:43119>.
+  That address is the field sheet link in the README, package metadata and the page footer.
+- Tests that the browser scores match the Python module, plus a server smoke test.
+
 ## [1.0.0] — 2024-05-30
 
 ### Added

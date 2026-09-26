@@ -1,0 +1,19 @@
+{
+  "name": "EPEA field sheet",
+  "short_name": "EPEA",
+  "description": "Field sheet for eco-pharmaco-economic analysis. Six EPI-style tiers, binding energy and cost are scored in the browser.",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#efe6d2",
+  "theme_color": "#efe6d2",
+  "lang": "en",
+  "icons": [
+    {
+      "src": "./favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ]
+}

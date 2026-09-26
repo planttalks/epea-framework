@@ -65,6 +65,8 @@ def main() -> None:
     df = df.sort_values("O_percent", ascending=False)
     print("\nMCDA ranking (higher O_percent = better overall):")
     print(df.to_string(index=False))
+    print("\nThe same scores are on the field sheet: http://127.0.0.1:43119")
+    print("Start it with: python field-sheet/serve.py")
 
 
 if __name__ == "__main__":

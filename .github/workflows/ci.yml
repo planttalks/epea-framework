@@ -44,7 +44,32 @@ jobs:
         run: pip install ruff
 
       - name: Check formatting
-        run: ruff format --check src tests examples
+        run: ruff format --check src tests examples field-sheet
 
       - name: Lint
-        run: ruff check src tests examples
+        run: ruff check src tests examples field-sheet
+
+  field-sheet:
+    name: "field sheet calculator"
+    runs-on: ubuntu-latest
+    env:
+      FIELD_SHEET_JS: "1"
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install package + dev dependencies
+        run: pip install -e ".[dev]"
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+
+      - name: Browser calculator
+        run: node --test field-sheet/calc.test.mjs
+
+      - name: Match Python scores and serve the sheet
+        run: pytest --tb=short -q tests/test_field_sheet_matches_python.py tests/test_field_sheet_server.py
