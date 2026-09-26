@@ -1,0 +1,9 @@
+{
+  "name": "epea-framework",
+  "private": true,
+  "scripts": {
+    "dev": "python3 field-sheet/serve.py || python field-sheet/serve.py",
+    "start": "python3 field-sheet/serve.py || python field-sheet/serve.py",
+    "test:sheet": "node --test field-sheet/calc.test.mjs"
+  }
+}

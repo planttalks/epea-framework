@@ -37,6 +37,22 @@ python -m venv .venv
 pip install -e ".[dev]"
 ```
 
+## Open the calculation sheet
+
+Open [http://127.0.0.1:43119](http://127.0.0.1:43119).
+
+From the repository root, start the sheet and then open that address in a browser.
+
+```bash
+python field-sheet/serve.py
+```
+
+`npm run dev` and `npm start` start the same server.
+
+The worked example loads the three illustrative rows from `examples/run_demo.py`. Records stay in the browser. No data are uploaded. A blank candidate row is left out of the score. Import a CSV that uses the columns in `examples/sample_chemicals.template.csv`, or export one and pass it to `run_mcda_from_tier_table`.
+
+This sheet scores candidates. It does not close a pre-harvest mass balance. That calculation lives in [antiviral-mass-balance](https://github.com/planttalks/antiviral-mass-balance).
+
 ## Quick use
 
 ```python
@@ -74,6 +90,7 @@ python examples/run_demo.py
 
 ```bash
 pytest
+node --test field-sheet/calc.test.mjs
 ```
 
 ## Citation

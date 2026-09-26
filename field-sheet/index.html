@@ -1,0 +1,301 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>EPEA field sheet</title>
+    <meta
+      name="description"
+      content="A field sheet for eco-pharmaco-economic analysis. Six EPI-style tiers, binding energy and cost are scored in the browser."
+    />
+    <meta name="theme-color" content="#efe6d2" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-title" content="EPEA" />
+    <link rel="icon" href="./favicon.svg" type="image/svg+xml" />
+    <link rel="manifest" href="./manifest.webmanifest" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=Source+Serif+4:ital,opsz,wght@0,8..60,500;0,8..60,600;1,8..60,500&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="./sheet.css" />
+  </head>
+  <body>
+    <a class="skip" href="#content">Skip to the calculation</a>
+    <header class="site-header">
+      <div class="header-inner">
+        <a class="wordmark" href="#sheet">EPEA field sheet</a>
+        <nav aria-label="Sections">
+          <a href="#sheet" data-view="sheet">Calculation</a>
+          <a href="#journal" data-view="journal">Records</a>
+          <a href="#limits" data-view="limits">Limits</a>
+        </nav>
+      </div>
+    </header>
+    <main id="content" class="wrap">
+      <section id="view-sheet">
+        <div class="intro">
+          <div>
+            <p class="sheet-kicker">Tiers, binding energy and cost</p>
+            <h1 tabindex="-1">Eco-pharmaco-economic analysis</h1>
+            <p class="lede">
+              Enter each disinfectant (or similar candidate) with six EPI-style tiers, a docking
+              binding energy and a price. This sheet calculates environmental impact and the
+              overall score.
+            </p>
+            <div class="actions no-print">
+              <button type="button" id="load-demo">Load worked example</button>
+              <button type="button" id="load-clear" class="secondary">Load clear ranking</button>
+              <button type="button" id="clear-sheet" class="secondary">Clear form</button>
+            </div>
+            <p id="status" class="hint" role="status"></p>
+          </div>
+          <aside class="label-sheet">
+            <p class="sheet-kicker">Stored in this browser</p>
+            <p id="browser-count">No records are stored in this browser.</p>
+            <p class="hint">
+              Safe scores 1, mild scores 2 and danger scores 3. A lower environmental impact is
+              better. A more negative binding energy is better. A lower price is better.
+            </p>
+            <p><a href="#limits">Read the limits of this sheet</a></p>
+          </aside>
+        </div>
+
+        <div class="sheet-grid">
+          <form id="sheet-form" novalidate>
+            <section class="block">
+              <h2 class="section-rule">Record</h2>
+              <div class="fields two">
+                <label class="field">
+                  <span>Comparison name</span>
+                  <input id="scenario" name="scenario" type="text" autocomplete="off" />
+                </label>
+                <label class="field">
+                  <span>Recorded by</span>
+                  <input id="operator" name="operator" type="text" autocomplete="name" />
+                </label>
+                <label class="field">
+                  <span>Date</span>
+                  <input id="date" name="date" type="date" />
+                </label>
+              </div>
+              <label class="field">
+                <span>Notes</span>
+                <textarea id="notes" name="notes" rows="3"></textarea>
+              </label>
+            </section>
+
+            <section class="block">
+              <h2 class="section-rule">Weights</h2>
+              <div class="choice-row">
+                <label class="check">
+                  <input type="radio" name="weightMode" value="equal" checked />
+                  <span>Equal weights (one third each)</span>
+                </label>
+                <label class="check">
+                  <input type="radio" name="weightMode" value="custom" />
+                  <span>Custom weights</span>
+                </label>
+              </div>
+              <div id="custom-weights" class="fields three" hidden>
+                <label class="field">
+                  <span>Efficacy weight</span>
+                  <input id="wE" data-error-id="wE" type="text" inputmode="decimal" spellcheck="false" placeholder="0.33" />
+                </label>
+                <label class="field">
+                  <span>Environmental weight</span>
+                  <input id="wS" data-error-id="wS" type="text" inputmode="decimal" spellcheck="false" placeholder="0.33" />
+                </label>
+                <label class="field">
+                  <span>Cost weight</span>
+                  <input id="wC" data-error-id="wC" type="text" inputmode="decimal" spellcheck="false" placeholder="0.34" />
+                </label>
+              </div>
+              <p id="weight-hint" class="hint">Efficacy, environmental impact and cost each take one third.</p>
+            </section>
+
+            <section class="block">
+              <div class="section-head">
+                <h2 class="section-rule">Candidates</h2>
+                <button type="button" id="add-candidate" class="secondary">Add candidate</button>
+              </div>
+              <p class="hint">
+                A row with an empty name, binding energy and cost is skipped. The overall score
+                compares the candidates in this record. One candidate still gets an impact class.
+                Its normalized scores sit at 50 because there is nothing to rank against.
+              </p>
+              <div id="candidates"></div>
+            </section>
+
+            <div class="actions no-print">
+              <button type="button" id="save-sheet">Save record</button>
+              <label class="file-button">
+                Import CSV
+                <input id="import-csv" type="file" accept=".csv,text/csv" hidden />
+              </label>
+              <button type="button" id="export-json" class="secondary">Export JSON</button>
+              <button type="button" id="export-csv" class="secondary">Export CSV</button>
+              <button type="button" id="copy-notebook" class="secondary">Copy results</button>
+              <button type="button" id="print-sheet" class="secondary">Print</button>
+            </div>
+          </form>
+
+          <aside id="results" class="results label-sheet" aria-labelledby="results-title">
+            <p class="sheet-kicker">Overall score</p>
+            <h2 id="results-title">Ranking</h2>
+            <p id="result-lead"></p>
+            <ul id="result-errors"></ul>
+            <p id="weight-line" class="hint"></p>
+            <div class="table-scroll">
+              <table class="rank-table">
+                <thead>
+                  <tr>
+                    <th>Rank</th>
+                    <th>Candidate</th>
+                    <th>EI %</th>
+                    <th>Class</th>
+                    <th>Enorm</th>
+                    <th>Snorm</th>
+                    <th>Cnorm</th>
+                    <th>O %</th>
+                  </tr>
+                </thead>
+                <tbody id="rank-body"></tbody>
+              </table>
+            </div>
+            <div id="result-candidates"></div>
+            <h3 class="sheet-kicker">Result summary</h3>
+            <pre id="notebook" class="notebook"></pre>
+          </aside>
+        </div>
+      </section>
+
+      <section id="view-journal" hidden>
+        <p class="sheet-kicker">Stored records</p>
+        <h1 tabindex="-1">Records</h1>
+        <p id="journal-count">No records are stored in this browser.</p>
+        <p id="journal-empty" class="ink-empty">No records are stored in this browser. Save a record from the calculation sheet.</p>
+        <ul id="journal-list" class="journal-list"></ul>
+      </section>
+
+      <section id="view-limits" hidden>
+        <p class="sheet-kicker">Scope of the calculation</p>
+        <h1 tabindex="-1">Limits</h1>
+        <div class="prose">
+          <p>
+            This sheet applies the weighted environmental impact and the multicriteria score from
+            Zure, Sung, Rahim and Kuo,
+            <em>International Journal of Molecular Sciences</em> 2024, volume 25, article 6009.
+            <a href="https://doi.org/10.3390/ijms25116009">doi:10.3390/ijms25116009</a>
+          </p>
+          <p>
+            Six profiles are scored safe = 1, mild = 2 or danger = 3. They are atmospheric
+            hydroxylation, soil adsorption, fish biotransformation half-life, bioconcentration,
+            bioaccumulation and biodegradation half-life. Environmental impact is the total divided
+            by 18, written as a percent.
+          </p>
+          <p>
+            A total of 6 is safe. Totals from 7 to 11 are mild. Totals from 12 to 18 are danger.
+            The all-safe case is 6/18, which is 33.33 percent. A cutoff at exactly 33.33 percent
+            would mislabel it, so the sheet uses the integer bands.
+          </p>
+          <p>
+            The overall score is wE times Enorm, plus wS times Snorm, plus wC times Cnorm. The
+            default weights are equal. Enorm gives 100 to the most negative binding energy in the
+            set. Snorm gives 100 to the lowest environmental impact in the set. Cnorm gives 100 to
+            the lowest cost in the set.
+          </p>
+          <p>
+            The paper writes the efficacy formula so the most negative binding energy would score 0.
+            That fights the stated aim. This sheet gives that value a score of 100. The paper's cost
+            equation uses the letter S where the cost belongs. This sheet uses the cost.
+          </p>
+          <p>
+            Scores are relative to the candidates on this sheet. Add or remove a row and the
+            normalized scores change. If every candidate shares a value, or there is only one
+            candidate, that normalized score is 50.
+          </p>
+          <p>
+            The worked example uses the illustrative rows in this repository. Those numbers are not
+            a published table. Bin your own EPI Suite output before you enter a tier.
+          </p>
+          <p>
+            This sheet does not close a pre-harvest antiviral mass balance. That calculation has its
+            own field sheet in
+            <a href="https://github.com/planttalks/antiviral-mass-balance">antiviral-mass-balance</a>.
+            Plant identification has its own sheet in
+            <a href="https://github.com/planttalks/field-botanist-dendrologist-agent">field-botanist-dendrologist-agent</a>.
+          </p>
+          <p>Records remain in this browser. There is no account. Clearing site data deletes the stored records.</p>
+        </div>
+      </section>
+    </main>
+    <footer class="wrap footer">
+      <p id="net-status" class="hint"></p>
+      <p>
+        Calculation sheet for
+        <a href="https://doi.org/10.3390/ijms25116009">Zure, Sung, Rahim and Kuo, Int. J. Mol. Sci. (2024)</a>.
+        A candidate row that is left empty is omitted from the calculation.
+      </p>
+    </footer>
+    <div id="live-bar" class="live-bar" aria-live="polite">
+      <span>Best <strong id="bar-best">n/a</strong></span>
+      <span>O <strong id="bar-o">n/a</strong></span>
+      <span>Class <strong id="bar-class">n/a</strong></span>
+    </div>
+
+    <template id="candidate-template">
+      <fieldset class="candidate ink-frame" data-candidate>
+        <legend class="legend-name">Candidate</legend>
+        <div class="part-toolbar">
+          <button type="button" class="secondary" data-remove>Remove candidate</button>
+        </div>
+        <label class="field">
+          <span>Name</span>
+          <input data-field="name" type="text" autocomplete="off" />
+        </label>
+        <div class="fields three">
+          <label class="field">
+            <span>log OH</span>
+            <select data-field="logOH" data-error-key="logOH"></select>
+          </label>
+          <label class="field">
+            <span>log Koc</span>
+            <select data-field="logKoc" data-error-key="logKoc"></select>
+          </label>
+          <label class="field">
+            <span>HLN</span>
+            <select data-field="HLN" data-error-key="HLN"></select>
+          </label>
+          <label class="field">
+            <span>log BCF</span>
+            <select data-field="logBCF" data-error-key="logBCF"></select>
+          </label>
+          <label class="field">
+            <span>log BAF</span>
+            <select data-field="logBAF" data-error-key="logBAF"></select>
+          </label>
+          <label class="field">
+            <span>DT50</span>
+            <select data-field="DT50" data-error-key="DT50"></select>
+          </label>
+          <label class="field">
+            <span>Binding energy (LBE)</span>
+            <input data-field="lbe" data-error-key="lbe" type="text" inputmode="decimal" spellcheck="false" placeholder="-8.0" />
+          </label>
+          <label class="field">
+            <span>Cost (USD per kg)</span>
+            <input data-field="cost" data-error-key="cost" type="text" inputmode="decimal" spellcheck="false" placeholder="12" />
+          </label>
+        </div>
+        <p class="hint candidate-hint">Safe, mild or danger. More negative binding energy scores higher on efficacy.</p>
+      </fieldset>
+    </template>
+    <noscript>
+      <p class="wrap">This sheet requires JavaScript. The scores are calculated in the browser. No data are uploaded.</p>
+    </noscript>
+    <script type="module" src="./app.mjs"></script>
+  </body>
+</html>
